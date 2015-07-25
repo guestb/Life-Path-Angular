@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="lifepath">
+<head>
+    <title>Life Path Generator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="Scripts/lifepath.js"></script>
+    <link rel="stylesheet" href="Content/css/app.css" />
+</head>
+<body>
+    <h2>Life Path Generator</h2>
+    <div ng-controller="LifePathController as lp">
+        <ul class="stats">
+            <li ng-repeat="stat in lp.stats">
+                <span>{{stat.name}}</span>
+                <br />
+                <label style="color:{{lp.checkStat(stat)}}">{{stat.value}} ({{lp.calcMod(stat)}})</label>
+            </li>
+        </ul>
+        <input type="button" id="raceRoller" name="raceRoller" ng-click="lp.rollRace()" value="Roll for your race" />
+        <input type="checkbox" ng-model="showRaces" />Show Races table
+        <table ng-show="showRaces">
+            <caption style="text-align:left">Select a race to be or roll for one using the button to the side</caption>
+            <thead>
+                <tr>
+                    <td>Race</td>
+                    <td>First Bonus</td>
+                    <td>Second Bonus</td>
+                    <td>Chance</td>
+                </tr>
+            </thead>
+            <tr ng-repeat="race in lp.races" class="race-selected-{{race.selected}}">
+                <td ng-click="lp.selectRace(race)">{{race.name}}</td>
+                <td ng-repeat="bonus in race.bonuses" ng-click="lp.selectRace(race)">
+                    {{bonus.name}} +{{bonus.value}}
+                </td>
+                <td ng-click="lp.selectRace(race)">{{race.minChance}} - {{race.maxChance}}</td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <div ng-show="lp.selectedRace.selected">
+            <label>Congratulations! You are a {{lp.selectedRace.name}}</label>
+            <br />
+            <input type="button" id="pathRoller" ng-click="lp.choosePath()" value="Roll for starting path" />
+            <div ng-repeat="path in lp.paths" class="pathList">
+                <input type="radio" id="pathTable" value="{{path.name}}" ng-model="lp.startingPath" />{{path.name}} <label>{{path.hover}}</label>
+            </div>
+            <div ng-show="lp.startingPath">
+                <input type="button" ng-click="lp.rollMonth()" value="Roll for {{lp.GetOrdinal()}} month" ng-disabled="lp.events.length >= 11"/>
+                <input type="button" id="finishRolling" ng-click="lp.finishRolls()" value="Roll all at once" ng-disabled="lp.events.length >= 11" />
+                <table ng-show="lp.events.length > 0">
+                    <thead>
+                        <tr>
+                            <td>Month</td>
+                            <td>Description</td>
+                            <td>Outcome</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="event in lp.events">
+                            <td>{{lp.GetOrdinal($index)}}</td>
+                            <td>{{event.description}}</td>
+                            <td>{{lp.GetOutcome(event)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a class="footer" href="Content/lifepath.pdf">Original rules used as template</a>
+</body>
+</html>
