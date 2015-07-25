@@ -1,0 +1,58 @@
+﻿body {
+    background-color:dimgrey;
+    color: wheat;
+}
+
+ul.stats{
+    /*display:inline-block*/
+}
+
+ul.stats li{
+    display:inline-block;
+    margin-left:20px;
+}
+
+ul.stats li span{
+    font-weight:bold
+}
+
+ul.stats li label{
+    border:thin
+}
+
+a{
+    color:wheat;   
+}
+
+.footer{
+    position:fixed;
+    bottom:10px;
+}
+
+table.races {
+    display: inline-table;
+}
+table {
+    border-collapse: collapse;
+}
+table,th,td{
+    border:ridge;
+}
+thead{
+    text-align:center;
+    font-weight:bold;
+}
+td:first-child{
+    font-weight:bold;
+}
+tr.race-selected-true{
+    background-color:darkgray;
+}
+
+div.pathList label{
+    font-size:smaller
+}
+
+input#finishRolling{
+    margin-left:5px;
+}
